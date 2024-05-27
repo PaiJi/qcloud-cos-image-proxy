@@ -1,0 +1,21 @@
+{
+  "name": "qcloud-cos-image-proxy",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.11.1",
+    "cos-nodejs-sdk-v5": "^2.14.0",
+    "dotenv": "^16.4.5",
+    "hono": "^4.3.11",
+    "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "tsx": "^4.7.1"
+  },
+  "packageManager": "yarn@4.2.2"
+}

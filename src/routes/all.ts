@@ -2,13 +2,13 @@ import { Hono } from "hono";
 import { env } from "hono/adapter";
 import "dotenv/config";
 
-import { NodeJSEnv } from "./types/env";
-import { buildURL, fetchCOSObject } from "./polyfills/cos";
+import { NodeJSEnv } from "../types/env";
+import { buildURL, fetchCOSObject } from "../polyfills/cos.js";
 import COS from "cos-nodejs-sdk-v5";
 
-const app = new Hono();
+const imageHandler = new Hono();
 
-app.get("*", async (c) => {
+imageHandler.all("*", async (c) => {
   const { BUCKET_URL } = env<NodeJSEnv>(c);
   const url = new URL(c.req.url);
 
@@ -37,4 +37,4 @@ app.get("*", async (c) => {
   );
 });
 
-export default app;
+export default imageHandler;

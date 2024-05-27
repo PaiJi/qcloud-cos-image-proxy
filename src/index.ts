@@ -1,7 +1,7 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import ImageProxy from "./image-proxy";
+import imageHandler from "./routes/all.js";
 
 const app = new Hono();
 
@@ -16,7 +16,7 @@ app.use(
   })
 );
 
-app.route("/", ImageProxy);
+app.route("/", imageHandler);
 
 app.notFound((c) => {
   return c.text(

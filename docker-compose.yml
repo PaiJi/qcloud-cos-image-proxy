@@ -3,3 +3,7 @@ services:
     build: .
     ports:
       - "3001:3000"
+    environment:
+      - BUCKET_URL=${BUCKET_URL}
+      - SecretId=${SecretId}
+      - SecretKey=${SecretKey}

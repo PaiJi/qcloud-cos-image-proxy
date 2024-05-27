@@ -5,7 +5,7 @@ FROM base AS builder
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY package*json tsconfig.json src ./
+COPY package*json tsconfig.json src .yarnrc.yml yarn.lock ./
 
 RUN corepack enable && \
     yarn --immutable && \

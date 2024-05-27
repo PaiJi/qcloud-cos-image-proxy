@@ -7,9 +7,9 @@ WORKDIR /app
 
 COPY package*json tsconfig.json src ./
 
-RUN npm ci && \
-    npm run build && \
-    npm prune --production
+RUN corepack enable && \
+    yarn --immutable && \
+    yarn build
 
 FROM base AS runner
 WORKDIR /app

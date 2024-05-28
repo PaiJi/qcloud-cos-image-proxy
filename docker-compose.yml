@@ -1,8 +1,6 @@
 services:
   api:
     build: .
-    ports:
-      - "3001:3000"
     network_mode: bridge
     environment:
       - BUCKET_URL=${BUCKET_URL}

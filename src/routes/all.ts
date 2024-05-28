@@ -17,7 +17,6 @@ imageHandler.all("*", async (c) => {
   const format = url.searchParams.get("f");
 
   const isHaveParams = width || quality || format;
-  console.log("isHaveParams", isHaveParams);
 
   const pathname = url.pathname;
   if (isHaveParams) {

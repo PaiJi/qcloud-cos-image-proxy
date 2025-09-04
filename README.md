@@ -91,8 +91,6 @@ http://localhost:3000/path/to/image.jpg?f=avif
 http://localhost:3000/path/to/image.jpg?f=jpeg
 ```
 
-````
-
 ##### 默认行为
 
 - 无视转换错误，如果转换失败，则返回原图
@@ -107,4 +105,4 @@ yarn
 yarn dev
 # 构建
 yarn build
-````
+```

@@ -12,11 +12,11 @@ export async function fetchCOSObject(
   objectKey: string,
   c: Context<Env, "*", BlankInput>
 ) {
-  const { SecretId, SecretKey, BUCKET_URL } = env<NodeJSEnv>(c);
+  const { COS_SECRET_ID, COS_SECRET_KEY, BUCKET_URL } = env<NodeJSEnv>(c);
 
   const authToken = COS.getAuthorization({
-    SecretId: SecretId,
-    SecretKey: SecretKey,
+    SecretId: COS_SECRET_ID,
+    SecretKey: COS_SECRET_KEY,
     Method: method,
     Key: objectKey,
     // Expires: 60,
@@ -35,8 +35,15 @@ export async function fetchCOSObject(
   if (response.status === 404) {
     return c.notFound();
   }
-  const newResponse = new Response(response.body, response);
-  newResponse.headers.set("Content-Disposition", "inline");
+
+  const newHeaders = new Headers(response.headers);
+  newHeaders.set("Content-Disposition", "inline");
+
+  const newResponse = new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: newHeaders,
+  });
   return newResponse;
 }
 
@@ -45,18 +52,30 @@ export function buildURL({
   format,
   width,
   height,
+  dependOn,
   quality,
 }: {
   url: URL;
   format: string | null;
   width?: string | null;
   height?: string | null;
+  dependOn?: "width" | "height";
   quality?: string | null;
 }) {
   const queryParams = [];
 
   const widthBuilder = (width: string) =>
     `imageMogr2/thumbnail/${width}x/ignore-error/1`;
+  const heightBuilder = (height: string) =>
+    `imageMogr2/thumbnail/x${height}/ignore-error/1`;
+  const widthAndHeightBuilder = (
+    width: string,
+    height: string,
+    dependOn: "width" | "height"
+  ) =>
+    dependOn === "height"
+      ? `imageMogr2/thumbnail/${width}x${height}/ignore-error/1`
+      : `imageMogr2/thumbnail/!${width}x${height}r/ignore-error/1`;
   const qualityBuilder = (quality: string) =>
     quality !== "auto"
       ? `imageMogr2/quality/${quality}/ignore-error/1/minisize/1`
@@ -64,7 +83,13 @@ export function buildURL({
   const formatBuilder = (format: string) =>
     `imageMogr2/format/${format}/minisize/1/ignore-error/1`;
 
-  if (width) {
+  if (width && height) {
+    queryParams.push(
+      widthAndHeightBuilder(width, height, dependOn || "height")
+    );
+  } else if (height) {
+    queryParams.push(heightBuilder(height));
+  } else if (width) {
     queryParams.push(widthBuilder(width));
   }
 

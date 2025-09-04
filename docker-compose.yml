@@ -1,8 +1,0 @@
-services:
-  api:
-    build: .
-    network_mode: bridge
-    environment:
-      - BUCKET_URL=${BUCKET_URL}
-      - SecretId=${SecretId}
-      - SecretKey=${SecretKey}

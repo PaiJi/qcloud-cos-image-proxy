@@ -8,30 +8,51 @@ import COS from "cos-nodejs-sdk-v5";
 
 const imageHandler = new Hono();
 
-imageHandler.all("*", async (c) => {
+imageHandler.get("*", async (c) => {
   const { BUCKET_URL } = env<NodeJSEnv>(c);
-  const url = new URL(c.req.url);
 
-  const width = url.searchParams.get("w");
-  const quality = url.searchParams.get("q");
-  const format = url.searchParams.get("f");
+  const originUrl = new URL(c.req.url);
+  const originPathname = originUrl.pathname;
+  const originFullPath = `${originPathname}${originUrl.search}`;
 
-  const isHaveParams = width || quality || format;
+  const width = originUrl.searchParams.get("w");
+  const height = originUrl.searchParams.get("h");
+  const quality = originUrl.searchParams.get("q");
+  const format = originUrl.searchParams.get("f");
+  const dependOn = originUrl.searchParams.get("dependOn") as
+    | "width"
+    | "height"
+    | undefined;
 
-  const pathname = url.pathname;
+  const isHaveParams = width || height || quality || format;
+  //Disallow access folder.
+  const isFile = originUrl.pathname.split(".").pop() || "";
+
+  if (!isFile) {
+    return c.notFound();
+  }
+
   if (isHaveParams) {
-    const cosURL = buildURL({ url, format, width, quality });
+    const cosPathname = buildURL({
+      url: originUrl,
+      format,
+      width,
+      height,
+      dependOn,
+      quality,
+    });
     return fetchCOSObject(
-      `https://${BUCKET_URL}${cosURL}`,
+      `https://${BUCKET_URL}${cosPathname}`,
       c.req.method as COS.Method,
-      pathname,
+      originPathname,
       c
     );
   }
+
   return fetchCOSObject(
-    `https://${BUCKET_URL}${pathname}`,
+    `https://${BUCKET_URL}${originPathname}`,
     c.req.method as COS.Method,
-    pathname,
+    originPathname,
     c
   );
 });

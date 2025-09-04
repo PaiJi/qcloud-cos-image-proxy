@@ -3,7 +3,7 @@
 ![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/paiji/qcloud-cos-image-proxy/latest)
 ![Docker Pulls](https://img.shields.io/docker/pulls/paiji/qcloud-cos-image-proxy)
 ![Docker Stars](https://img.shields.io/docker/stars/paiji/qcloud-cos-image-proxy)
-![Docker Image Version (latest by date)](https://img.shields.io/docker/v/paiji/qcloud-cos-image-proxy/latest)
+[![DockerHub Publish](https://github.com/PaiJi/qcloud-cos-image-proxy/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/PaiJi/qcloud-cos-image-proxy/actions/workflows/docker-publish.yml)
 
 一个使用 `Hono` 来反代 腾讯云对象存储(COS) 且重写图片处理参数的轻量工具。
 

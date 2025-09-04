@@ -1,15 +1,15 @@
 import "./instrument.js";
+import * as Sentry from "@sentry/node";
 
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { requestId } from "hono/request-id";
-
-import * as Sentry from "@sentry/node";
-
-import { version } from "../package.json";
-import imageHandler from "./routes/all.js";
 import { HTTPException } from "hono/http-exception";
+
+import imageHandler from "./routes/all.js";
+
+const { version } = require("./package.json");
 
 const app = new Hono();
 

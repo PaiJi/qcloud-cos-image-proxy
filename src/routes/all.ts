@@ -2,9 +2,9 @@ import { Hono } from "hono";
 import { env } from "hono/adapter";
 import "dotenv/config";
 
-import { NodeJSEnv } from "../types/env";
-import { buildURL, fetchCOSObject } from "../polyfills/cos.js";
 import COS from "cos-nodejs-sdk-v5";
+import type { NodeJSEnv } from "@/types/env";
+import { buildURL, fetchCOSObject } from "@/polyfills/cos";
 
 const imageHandler = new Hono();
 

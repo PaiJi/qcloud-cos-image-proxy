@@ -1,10 +1,10 @@
 import COS from "cos-nodejs-sdk-v5";
-import { Context, Env } from "hono";
 import { env } from "hono/adapter";
 import "dotenv/config";
 
+import { Context, Env } from "hono";
 import { BlankInput } from "hono/types";
-import { NodeJSEnv } from "../types/env";
+import { NodeJSEnv } from "@/types/env";
 
 export async function fetchCOSObject(
   url: string,

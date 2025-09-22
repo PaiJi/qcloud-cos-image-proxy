@@ -9,7 +9,9 @@ import { HTTPException } from "hono/http-exception";
 
 import imageHandler from "./routes/all.js";
 
-const { version } = require("./package.json");
+import packageJson from "../package.json" assert { type: "json" };
+
+const { version } = packageJson;
 
 const app = new Hono();
 

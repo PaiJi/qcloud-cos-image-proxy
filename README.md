@@ -24,6 +24,7 @@ docker run -d \
   -e COS_SECRET_ID=your-cos-secret-id \
   -e COS_SECRET_KEY=your-cos-secret-key \
   -e SENTRY_DSN=your-sentry-dsn \
+  -e DEFAULT_FORMAT=jpg \
   paiji/qcloud-cos-image-proxy:latest
 ```
 

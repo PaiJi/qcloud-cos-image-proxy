@@ -16,6 +16,8 @@ import packageJson from "../package.json" assert { type: "json" };
 
 const { version } = packageJson;
 
+const DEFAULT_FORMAT = process.env.DEFAULT_FORMAT || null;
+
 const app = new Hono();
 
 app.use(
@@ -53,7 +55,7 @@ app.get("*", async (c) => {
   const width = originUrl.searchParams.get("w");
   const height = originUrl.searchParams.get("h");
   const quality = originUrl.searchParams.get("q");
-  const format = originUrl.searchParams.get("f");
+  const format = originUrl.searchParams.get("f") || DEFAULT_FORMAT;
   const dependOn = originUrl.searchParams.get("dependOn") as
     | "width"
     | "height"
